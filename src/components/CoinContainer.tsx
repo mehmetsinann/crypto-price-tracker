@@ -32,6 +32,8 @@ const CoinContainer: React.FC = (props) => {
   return (
     <div className="w-full h-full flex flex-wrap items-center justify-center">
       {filteredCoins.map((coin, index) => {
+        console.log(coin);
+
         return (
           <Coin
             key={index}
