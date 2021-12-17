@@ -33,7 +33,7 @@ const Coin: React.FC<types> = ({
           <img
             src="/arrow.png"
             alt="arrow"
-            className="w-5 h-5 bg-transparent mr-2"
+            className="w-5 h-5 bg-transparent rotate-180 mr-2"
           />
           <p className="bg-transparent">%{change}</p>
         </div>
@@ -42,7 +42,7 @@ const Coin: React.FC<types> = ({
           <img
             src="/arrow.png"
             alt="arrow"
-            className="w-5 h-5 bg-transparent rotate-180 mr-2"
+            className="w-5 h-5 bg-transparent mr-2"
           />
           <p className="bg-transparent">%{price_change.toFixed(2)}</p>
         </div>
