@@ -8,7 +8,6 @@ function App() {
     <div className="max-w-screen-xl mx-auto">
       <AppBar />
       <CoinContainer />
-      <div className="text-blue-600">deneme</div>
     </div>
   );
 }
