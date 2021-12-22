@@ -20,7 +20,9 @@ const AppBar: React.FC = () => {
 
   return (
     <div className="flex flex-row items-center justify-between py-4 px-4">
-      <h1 className="font-semibold text-3xl">CoinTracker</h1>
+      <h1 className="font-semibold text-3xl">
+        <a href="/">CoinTracker</a>
+      </h1>
       <div className="h-full">
         <input
           id="search"
