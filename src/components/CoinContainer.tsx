@@ -1,20 +1,18 @@
 import Coin from "./Coin";
-import axios from "axios";
 import { useEffect, useState } from "react";
 
-const CoinContainer: React.FC = (props) => {
-  const [coins, setCoins] = useState<Array<any>>([]);
+interface type {
+  allCoins: Array<object>;
+  favCoins: Array<object>;
+}
+
+const CoinContainer: React.FC<type> = ({ allCoins, favCoins }) => {
   const [currentSearch, setCurrentSearch] = useState("");
+  const coins = allCoins;
+  // console.log(coins);
 
   useEffect(() => {
     handleSearch();
-    axios
-      .get(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
-      )
-      .then((res) => {
-        setCoins(res.data);
-      });
   }, []);
 
   const handleSearch = () => {
@@ -25,18 +23,17 @@ const CoinContainer: React.FC = (props) => {
     });
   };
 
-  const filteredCoins = coins.filter((coin) =>
+  const filteredCoins: any = coins.filter((coin: any) =>
     coin.name.toLowerCase().includes(currentSearch.toLowerCase())
   );
 
   return (
     <div className="w-full h-full flex flex-wrap items-center justify-center">
-      {filteredCoins.map((coin, index) => {
-        console.log(coin);
-
+      {filteredCoins.map((coin: any, index: any) => {
         return (
           <Coin
             key={index}
+            id={coin.id}
             imgURL={coin.image}
             name={coin.name}
             symbol={coin.symbol}
@@ -44,6 +41,8 @@ const CoinContainer: React.FC = (props) => {
             market_cap={coin.market_cap}
             total_volume={coin.total_volume}
             change={coin.price_change_percentage_24h}
+            isFav={false}
+            favCoins={favCoins}
           />
         );
       })}
