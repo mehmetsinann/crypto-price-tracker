@@ -15,7 +15,7 @@ function App() {
   async function fetchAllCoins() {
     await axios
       .get(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false"
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
       )
       .then((res) => {
         setAllCoins(res.data);
@@ -38,9 +38,11 @@ function App() {
       });
     tempCoins.forEach(async (coin: any) => {
       await axios
-        .get(`https://api.coingecko.com/api/v3/coins/${coin.id}`)
+        .get(
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coin.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+        )
         .then((res) => {
-          const data = res.data;
+          const data = res.data[0];
           tempCoins2.push({ ...data });
         });
     });
@@ -61,6 +63,14 @@ function App() {
       <div className="flex justify-center mx-auto gap-4">
         <button
           className="border border-white rounded-lg px-2 py w-24"
+          style={
+            !favs
+              ? {
+                  backgroundColor: "white",
+                  color: "black",
+                }
+              : { backgroundColor: "transparent", color: "white" }
+          }
           onClick={() => {
             setFavs(false);
           }}
@@ -69,6 +79,11 @@ function App() {
         </button>
         <button
           className="border border-white rounded-lg px-2 py w-24"
+          style={
+            favs
+              ? { backgroundColor: "white", color: "black" }
+              : { backgroundColor: "transparent", color: "white" }
+          }
           onClick={() => {
             setFavs(true);
           }}
@@ -79,7 +94,7 @@ function App() {
       {favs ? (
         <Favs favCoins={favCoins} user={user} />
       ) : (
-        <CoinContainer allCoins={allCoins} />
+        <CoinContainer allCoins={allCoins} favCoins={favCoins} />
       )}
     </div>
   );

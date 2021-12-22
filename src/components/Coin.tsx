@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { auth, db } from "../firebase";
 
@@ -11,6 +12,7 @@ interface types {
   total_volume: string;
   change: string;
   isFav: boolean;
+  favCoins: Array<object>;
 }
 
 const Coin: React.FC<types> = ({
@@ -23,6 +25,7 @@ const Coin: React.FC<types> = ({
   total_volume,
   change,
   isFav,
+  favCoins,
 }) => {
   const [user, setUser] = useState<any>(null);
   const price_change = parseFloat(change);
@@ -44,10 +47,23 @@ const Coin: React.FC<types> = ({
         .collection("coins")
         .doc(coin.id)
         .set(coin)
-        .then(() => {
-          alert("başarıyla kaydedildi");
-          window.location.reload();
-        });
+        .then(async () => {
+          await axios
+            .get(
+              `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coin.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+            )
+            .then((res) => {
+              const data = res.data[0];
+              const tempcoin = favCoins.find((x: any) => x.id === data.id);
+              if (tempcoin === undefined) {
+                favCoins.push({ ...data });
+                alert("başarıyla kaydedildi");
+              } else {
+                alert("zaten favorilerde");
+              }
+            });
+        })
+        .catch((e) => console.log(e));
     } else {
       alert("lütfen giriş yapın");
     }
@@ -61,14 +77,25 @@ const Coin: React.FC<types> = ({
         .doc(coin.id)
         .delete()
         .then(() => {
-          alert("başarıyla silindi");
-          window.location.reload();
-        });
+          const tempcoin = favCoins.find((x: any) => x.id === coin.id);
+          if (tempcoin) {
+            const index = favCoins.indexOf(tempcoin);
+            favCoins.splice(index, 1);
+            console.log(favCoins);
+            alert("başarıyla silindi");
+            const doc = document.getElementById(coin.id);
+            doc?.classList.add("hidden");
+          }
+        })
+        .catch((e) => console.log(e));
     }
   };
 
   return (
-    <div className="relative w-1/4 flex flex-col items-center m-4 border border-white p-4 rounded-xl shadow-sm shadow-purple-500">
+    <div
+      id={coin.id}
+      className="relative w-1/4 flex flex-col items-center m-4 border border-white p-4 rounded-xl shadow-sm shadow-purple-500"
+    >
       <button
         className="absolute top-2 right-4 text-3xl"
         onClick={isFav ? removeFav : addFav}
@@ -80,9 +107,15 @@ const Coin: React.FC<types> = ({
         <h1 className="font-semibold text-2xl">{name}</h1>
         <p className="text-gray-300 pl-2 pt-2">{symbol.toUpperCase()}</p>
       </div>
-      <p>${current_price.toLocaleString()}</p>
-      <p>Market Cap: ${market_cap.toLocaleString()}</p>
-      <p>Total Volume: ${total_volume.toLocaleString()}</p>
+      <p className="text-xl">${current_price}</p>
+      <div className="flex flex-row">
+        <p className="text-gray-400">Market Cap:</p> &nbsp;
+        <p>${market_cap.toLocaleString()}</p>
+      </div>
+      <div className="flex flex-row">
+        <p className="text-gray-400">Total Volume:</p> &nbsp;
+        <p>${total_volume.toLocaleString()}</p>
+      </div>
       {price_change > 0 ? (
         <div className="rounded-b-lg bg-green-500 w-full h-12 mt-2 flex items-center justify-center">
           <img

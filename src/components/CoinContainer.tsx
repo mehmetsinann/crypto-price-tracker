@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 
 interface type {
   allCoins: Array<object>;
+  favCoins: Array<object>;
 }
 
-const CoinContainer: React.FC<type> = ({ allCoins }) => {
+const CoinContainer: React.FC<type> = ({ allCoins, favCoins }) => {
   const [currentSearch, setCurrentSearch] = useState("");
   const coins = allCoins;
+  // console.log(coins);
 
   useEffect(() => {
     handleSearch();
@@ -40,6 +42,7 @@ const CoinContainer: React.FC<type> = ({ allCoins }) => {
             total_volume={coin.total_volume}
             change={coin.price_change_percentage_24h}
             isFav={false}
+            favCoins={favCoins}
           />
         );
       })}
