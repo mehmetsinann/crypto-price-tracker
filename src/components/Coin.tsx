@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useAlert } from "react-alert";
 import { auth, db } from "../firebase";
 
 interface types {
@@ -29,6 +30,7 @@ const Coin: React.FC<types> = ({
 }) => {
   const [user, setUser] = useState<any>(null);
   const price_change = parseFloat(change);
+  const alert = useAlert();
 
   const coin = {
     id,
@@ -57,15 +59,45 @@ const Coin: React.FC<types> = ({
               const tempcoin = favCoins.find((x: any) => x.id === data.id);
               if (tempcoin === undefined) {
                 favCoins.push({ ...data });
-                alert("başarıyla kaydedildi");
+                alert.success(
+                  <div
+                    style={{
+                      backgroundColor: "#22C55E",
+                      padding: "16px 8px",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    Coin favorilerinize başarıyla eklendi.
+                  </div>
+                );
               } else {
-                alert("zaten favorilerde");
+                alert.success(
+                  <div
+                    style={{
+                      backgroundColor: "#1C4A82",
+                      padding: "16px 8px",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    Coin zaten favorilerinizde bulunuyor.
+                  </div>
+                );
               }
             });
         })
         .catch((e) => console.log(e));
     } else {
-      alert("lütfen giriş yapın");
+      alert.info(
+        <div
+          style={{
+            backgroundColor: "#1C4A82",
+            padding: "16px 8px",
+            borderRadius: "8px",
+          }}
+        >
+          Lütfen giriş yapınız.
+        </div>
+      );
     }
   };
 
@@ -82,7 +114,17 @@ const Coin: React.FC<types> = ({
             const index = favCoins.indexOf(tempcoin);
             favCoins.splice(index, 1);
             console.log(favCoins);
-            alert("başarıyla silindi");
+            alert.success(
+              <div
+                style={{
+                  backgroundColor: "#22C55E",
+                  padding: "16px 8px",
+                  borderRadius: "8px",
+                }}
+              >
+                Coin favorilerden başarıyla silindi.
+              </div>
+            );
             const doc = document.getElementById(coin.id);
             doc?.classList.add("hidden");
           }
