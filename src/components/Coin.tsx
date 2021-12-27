@@ -136,7 +136,7 @@ const Coin: React.FC<types> = ({
   return (
     <div
       id={coin.id}
-      className="relative w-1/4 flex flex-col items-center m-4 border border-white p-4 rounded-xl shadow-sm shadow-purple-500"
+      className="relative w-3/4 md:w-1/4 flex flex-col items-center m-4 border border-white p-4 rounded-xl shadow-sm shadow-purple-500"
     >
       <button
         className="absolute top-2 right-4 text-3xl"
@@ -152,11 +152,11 @@ const Coin: React.FC<types> = ({
       <p className="text-xl">${current_price}</p>
       <div className="flex flex-row">
         <p className="text-gray-400">Market Cap:</p> &nbsp;
-        <p>${market_cap.toLocaleString()}</p>
+        <p className="flex self-center">${market_cap.toLocaleString()}</p>
       </div>
       <div className="flex flex-row">
         <p className="text-gray-400">Total Volume:</p> &nbsp;
-        <p>${total_volume.toLocaleString()}</p>
+        <p className="flex self-center">${total_volume.toLocaleString()}</p>
       </div>
       {price_change > 0 ? (
         <div className="rounded-b-lg bg-green-500 w-full h-12 mt-2 flex items-center justify-center">
