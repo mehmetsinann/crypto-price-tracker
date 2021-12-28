@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useAlert } from "react-alert";
 import { auth, db } from "../firebase";
 
 interface types {
@@ -29,6 +30,7 @@ const Coin: React.FC<types> = ({
 }) => {
   const [user, setUser] = useState<any>(null);
   const price_change = parseFloat(change);
+  const alert = useAlert();
 
   const coin = {
     id,
@@ -57,15 +59,45 @@ const Coin: React.FC<types> = ({
               const tempcoin = favCoins.find((x: any) => x.id === data.id);
               if (tempcoin === undefined) {
                 favCoins.push({ ...data });
-                alert("başarıyla kaydedildi");
+                alert.success(
+                  <div
+                    style={{
+                      backgroundColor: "#22C55E",
+                      padding: "16px 8px",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    Coin favorilerinize başarıyla eklendi.
+                  </div>
+                );
               } else {
-                alert("zaten favorilerde");
+                alert.success(
+                  <div
+                    style={{
+                      backgroundColor: "#1C4A82",
+                      padding: "16px 8px",
+                      borderRadius: "8px",
+                    }}
+                  >
+                    Coin zaten favorilerinizde bulunuyor.
+                  </div>
+                );
               }
             });
         })
         .catch((e) => console.log(e));
     } else {
-      alert("lütfen giriş yapın");
+      alert.info(
+        <div
+          style={{
+            backgroundColor: "#1C4A82",
+            padding: "16px 8px",
+            borderRadius: "8px",
+          }}
+        >
+          Lütfen giriş yapınız.
+        </div>
+      );
     }
   };
 
@@ -82,7 +114,17 @@ const Coin: React.FC<types> = ({
             const index = favCoins.indexOf(tempcoin);
             favCoins.splice(index, 1);
             console.log(favCoins);
-            alert("başarıyla silindi");
+            alert.success(
+              <div
+                style={{
+                  backgroundColor: "#22C55E",
+                  padding: "16px 8px",
+                  borderRadius: "8px",
+                }}
+              >
+                Coin favorilerden başarıyla silindi.
+              </div>
+            );
             const doc = document.getElementById(coin.id);
             doc?.classList.add("hidden");
           }
@@ -94,7 +136,7 @@ const Coin: React.FC<types> = ({
   return (
     <div
       id={coin.id}
-      className="relative w-1/4 flex flex-col items-center m-4 border border-white p-4 rounded-xl shadow-sm shadow-purple-500"
+      className="relative w-3/4 md:w-1/4 flex flex-col items-center m-4 border border-white p-4 rounded-xl shadow-sm shadow-purple-500"
     >
       <button
         className="absolute top-2 right-4 text-3xl"
@@ -110,11 +152,11 @@ const Coin: React.FC<types> = ({
       <p className="text-xl">${current_price}</p>
       <div className="flex flex-row">
         <p className="text-gray-400">Market Cap:</p> &nbsp;
-        <p>${market_cap.toLocaleString()}</p>
+        <p className="flex self-center">${market_cap.toLocaleString()}</p>
       </div>
       <div className="flex flex-row">
         <p className="text-gray-400">Total Volume:</p> &nbsp;
-        <p>${total_volume.toLocaleString()}</p>
+        <p className="flex self-center">${total_volume.toLocaleString()}</p>
       </div>
       {price_change > 0 ? (
         <div className="rounded-b-lg bg-green-500 w-full h-12 mt-2 flex items-center justify-center">
