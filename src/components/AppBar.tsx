@@ -35,10 +35,10 @@ const AppBar: React.FC = () => {
       <button
         id="log-button"
         onClick={user ? signOut : signInWithGoogle}
-        className="border border-white rounded-lg py h-full flex flex-row items-center px-4 py-1 md:ml-12"
+        className="border border-white rounded-lg py h-full w-30 flex flex-row items-center px-4 py-1 md:ml-12"
       >
         <img src="google.png" alt="google" className="w-4 h-4 mr-2" />
-        <p>{user ? "Sign out" : "Sign in with Google"}</p>
+        <p>{user ? "Sign out" : "Sign in"}</p>
       </button>
     </div>
   );
