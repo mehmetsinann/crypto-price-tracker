@@ -19,7 +19,7 @@ const AppBar: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between py-4 px-4 gap-4">
+    <div className="flex flex-col md:flex-row items-center justify-between py-4 px-4 md:gap-0 gap-4">
       <h1 className="font-semibold text-3xl">
         <a href="/">CoinTracker</a>
       </h1>
@@ -35,9 +35,10 @@ const AppBar: React.FC = () => {
       <button
         id="log-button"
         onClick={user ? signOut : signInWithGoogle}
-        className="border border-white rounded-lg md:ml-20 py w-20 h-full"
+        className="border border-white rounded-lg py h-full flex flex-row items-center px-4 py-1 md:ml-12"
       >
-        {user ? "Logout" : "Login"}
+        <img src="google.png" alt="google" className="w-4 h-4 mr-2" />
+        <p>{user ? "Sign out" : "Sign in with Google"}</p>
       </button>
     </div>
   );

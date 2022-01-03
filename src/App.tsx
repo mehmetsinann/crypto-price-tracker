@@ -88,7 +88,7 @@ function App() {
             setFavs(true);
           }}
         >
-          Favs
+          Favorites
         </button>
       </div>
       {favs ? (

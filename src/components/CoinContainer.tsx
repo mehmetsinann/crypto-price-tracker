@@ -9,6 +9,7 @@ interface type {
 const CoinContainer: React.FC<type> = ({ allCoins, favCoins }) => {
   const [currentSearch, setCurrentSearch] = useState("");
   const coins = allCoins;
+  let order = 0;
   // console.log(coins);
 
   useEffect(() => {
@@ -30,9 +31,11 @@ const CoinContainer: React.FC<type> = ({ allCoins, favCoins }) => {
   return (
     <div className="w-full h-full flex flex-wrap items-center justify-center">
       {filteredCoins.map((coin: any, index: any) => {
+        order++;
         return (
           <Coin
             key={index}
+            number={order}
             id={coin.id}
             imgURL={coin.image}
             name={coin.name}

@@ -5,6 +5,7 @@ import { auth, db } from "../firebase";
 
 interface types {
   id: string;
+  number: number;
   imgURL: string;
   name: string;
   symbol: string;
@@ -18,6 +19,7 @@ interface types {
 
 const Coin: React.FC<types> = ({
   id,
+  number,
   imgURL,
   name,
   symbol,
@@ -138,6 +140,12 @@ const Coin: React.FC<types> = ({
       id={coin.id}
       className="relative w-3/4 md:w-1/4 flex flex-col items-center m-4 border border-white p-4 rounded-xl shadow-sm shadow-purple-500"
     >
+      <div
+        className="absolute top-4 left-4 border border-white rounded-full px-2"
+        style={isFav ? { display: "none" } : {}}
+      >
+        {number}
+      </div>
       <button
         className="absolute top-2 right-4 text-3xl"
         onClick={isFav ? removeFav : addFav}

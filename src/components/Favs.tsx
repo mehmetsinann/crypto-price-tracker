@@ -8,7 +8,7 @@ interface type {
 
 const Favs: React.FC<type> = ({ favCoins, user }) => {
   const [currentSearch, setCurrentSearch] = useState("");
-
+  let order = 0;
   useEffect(() => {
     handleSearch();
   }, []);
@@ -30,9 +30,11 @@ const Favs: React.FC<type> = ({ favCoins, user }) => {
       {user ? (
         favCoins.length > 0 ? (
           filteredCoins.map((coin: any, index: any) => {
+            order++;
             return (
               <Coin
                 key={index}
+                number={order}
                 id={coin.id}
                 imgURL={coin.image}
                 name={coin.name}
