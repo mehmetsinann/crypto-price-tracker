@@ -25,6 +25,8 @@ const Favs: React.FC<type> = ({ favCoins, user }) => {
     coin.name.toLowerCase().includes(currentSearch.toLowerCase())
   );
 
+  filteredCoins.sort();
+
   return (
     <div className="w-full h-full flex flex-wrap items-center justify-center">
       {user ? (
